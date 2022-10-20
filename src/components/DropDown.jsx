@@ -11,14 +11,15 @@ const DropDown = (props) => {
     const res = await getAPIData()
     props.setData(res.data)
   }
+
   return(
-    <DropdownButton id="Black-btn" title="Select Stage">
-      <Dropdown.Item onClick={()=>getAllData()}>All</Dropdown.Item>
-      <Dropdown.Item onClick={()=>getData("Diligence")}>Diligence</Dropdown.Item>
-      <Dropdown.Item onClick={()=>getData("Contacted")}>Contacted</Dropdown.Item>
-      <Dropdown.Item onClick={()=>getData("Lead")}>Lead</Dropdown.Item>
-      <Dropdown.Item onClick={()=>getData("Closed")}>Closed</Dropdown.Item>
-      <Dropdown.Item onClick={()=>getData("Rejected")}>Rejected</Dropdown.Item>
+    <DropdownButton id="Black-btn" title={props.stage}>
+      <Dropdown.Item onClick={()=>{getAllData(); props.setStage('All')}}>All</Dropdown.Item>
+      <Dropdown.Item onClick={()=>{getData("Diligence"); props.setStage('Diligence')}}>Diligence</Dropdown.Item>
+      <Dropdown.Item onClick={()=>{getData("Contacted"); props.setStage('Contacted')}}>Contacted</Dropdown.Item>
+      <Dropdown.Item onClick={()=>{getData("Lead"); props.setStage('Lead')}}>Lead</Dropdown.Item>
+      <Dropdown.Item onClick={()=>{getData("Closed"); props.setStage('Closed')}}>Closed</Dropdown.Item>
+      <Dropdown.Item onClick={()=>{getData("Rejected"); props.setStage('Rejected')}}>Rejected</Dropdown.Item>
     </DropdownButton>
   )
 

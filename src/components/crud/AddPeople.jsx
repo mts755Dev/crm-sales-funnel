@@ -1,5 +1,5 @@
 import { useState} from "react";
-import { addToAPIData, getAPIData } from "../../services/CrmDataServices";
+import { addToAPIData, getAPIData, getAPIStagedData } from "../../services/CrmDataServices";
 import { Button } from 'react-bootstrap';
 const AddPeople = (props) => {
   const [inputs, setInputs] = useState({});
@@ -12,8 +12,14 @@ const AddPeople = (props) => {
   const handleAdd = async(event) => {
     event.preventDefault();
     await addToAPIData(inputs)
-    const res = await getAPIData()
-    props.setData(res.data)
+    if(props.stage==='All'){
+      const res = await getAPIData()
+      props.setData(res.data)
+    }
+    else{
+      const res = await getAPIStagedData(props.stage)
+      props.setData(res.data)
+    }
     props.setShowAdd(false);
   }
   return(

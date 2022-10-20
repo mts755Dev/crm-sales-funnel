@@ -1,15 +1,22 @@
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { deleteAPIData, getAPIData } from '../../services/CrmDataServices';
+import { deleteAPIData, getAPIData, getAPIStagedData } from '../../services/CrmDataServices';
 import EditPeople from '../crud/EditPeople';
 
 const DataShow = (props) => {
   const [showEdit, setShowEdit] = useState(false);
   const deleteData = async(id)=>{
     await deleteAPIData(id);
-    const res = await getAPIData()
+    if(props.stage==='All'){
+      const res = await getAPIData()
       props.setData(res.data)
+    }
+    else{
+      const res = await getAPIStagedData(props.stage)
+      props.setData(res.data)
+    }
   }
+
   return (
     <div className="card w-auto mb-3">
       <div className="card-body">
@@ -19,7 +26,7 @@ const DataShow = (props) => {
         <Button variant="dark" className="mx-4 mt-1 mb-1" onClick={()=>deleteData(props.data.id)}>Delete</Button>
       </div>
       {showEdit && <div>
-          <EditPeople setShowEdit={setShowEdit} dataId={props.data.id} setData={props.setData}/>
+          <EditPeople setShowEdit={setShowEdit} dataId={props.data.id} setData={props.setData} stage={props.stage}/>
         </div>}
     </div>
   );

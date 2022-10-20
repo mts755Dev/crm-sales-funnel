@@ -1,6 +1,6 @@
 import { Button } from 'react-bootstrap';
 import { useState } from 'react';
-import { updateAPIData, getAPIData } from '../../services/CrmDataServices';
+import { updateAPIData, getAPIData, getAPIStagedData } from '../../services/CrmDataServices';
 
 const EditPeople = (props) => {
   const [inputs, setInputs] = useState({});
@@ -13,8 +13,14 @@ const EditPeople = (props) => {
   const handleUpdate = async(event) => {
     event.preventDefault();
     await updateAPIData(props.dataId,inputs)
-    const res = await getAPIData()
-    props.setData(res.data)
+    if(props.stage==='All'){
+      const res = await getAPIData()
+      props.setData(res.data)
+    }
+    else{
+      const res = await getAPIStagedData(props.stage)
+      props.setData(res.data)
+    }
     props.setShowEdit(false);
   }
   return(
