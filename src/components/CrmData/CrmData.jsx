@@ -7,15 +7,13 @@ import AddPeople from "../crud/AddPeople";
 
 const CrmData = () => {
   const [showAdd, setShowAdd] = useState(false);
-  const [refresh, setRefresh] = useState(false)
   const [stage, setStage] = useState("All")
   const [data, setData] = useState([])
   useEffect(() => {
-    setData([])
     getAPIData(stage)
       .then((res) => setData(res.data))
       .catch((e) => console.log(e))
-  }, [stage, refresh]);
+  }, [stage]);
 
   return (
     <div className="container w-50 mt-5">
