@@ -1,7 +1,7 @@
 import { useState} from "react";
 import { addToAPIData, getAPIData, getAPIStagedData } from "../../services/CrmDataServices";
 import { Button } from 'react-bootstrap';
-const AddPeople = (props) => {
+const AddPeople = ({setShowAdd}) => {
   const [inputs, setInputs] = useState({});
   const handleChange = (event) => {
     const name = event.target.name;
@@ -12,15 +12,7 @@ const AddPeople = (props) => {
   const handleAdd = async(event) => {
     event.preventDefault();
     await addToAPIData(inputs)
-    if(props.stage==='All'){
-      const res = await getAPIData()
-      props.setData(res.data)
-    }
-    else{
-      const res = await getAPIStagedData(props.stage)
-      props.setData(res.data)
-    }
-    props.setShowAdd(false);
+    setShowAdd(false);
   }
   return(
     <form onSubmit={handleAdd}>

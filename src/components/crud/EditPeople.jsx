@@ -1,8 +1,8 @@
 import { Button } from 'react-bootstrap';
 import { useState } from 'react';
-import { updateAPIData, getAPIData, getAPIStagedData } from '../../services/CrmDataServices';
+import { updateAPIData} from '../../services/CrmDataServices';
 
-const EditPeople = (props) => {
+const EditPeople = ({dataId, setShowEdit, setName}) => {
   const [inputs, setInputs] = useState({});
   const handleChange = (event) => {
     const name = event.target.name;
@@ -12,17 +12,15 @@ const EditPeople = (props) => {
 
   const handleUpdate = async(event) => {
     event.preventDefault();
-    await updateAPIData(props.dataId,inputs)
-    if(props.stage==='All'){
-      const res = await getAPIData()
-      props.setData(res.data)
+    try {
+      await updateAPIData(dataId,inputs)
+      setName(inputs)
+    } catch (e) {
+      console.error(e)
     }
-    else{
-      const res = await getAPIStagedData(props.stage)
-      props.setData(res.data)
-    }
-    props.setShowEdit(false);
+    setShowEdit(false);
   }
+
   return(
     <form onSubmit={handleUpdate}>
       <label className="mb-3">First Name:
